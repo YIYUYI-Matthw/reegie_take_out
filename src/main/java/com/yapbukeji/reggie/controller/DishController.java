@@ -45,7 +45,7 @@ public class DishController {
     @PostMapping
 
     public ResData<String> addDish(@RequestBody DishDto dishDto) {
-        // TODO：如果菜名应该做一定区分
+        // TODO：如果菜名应该做一定的区分
         log.info("新增菜品");
         String redisKey = "" + dishDto.getCategoryId() + "1";
         dishService.saveWithFlavor(dishDto);
