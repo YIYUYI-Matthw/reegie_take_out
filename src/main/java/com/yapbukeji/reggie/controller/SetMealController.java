@@ -13,6 +13,8 @@ import com.yapbukeji.reggie.service.SetMealService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
@@ -81,6 +83,7 @@ public class SetMealController {
      * @return 删除结果
      */
     @DeleteMapping
+    @CacheEvict(value = "setMealCache", allEntries = true) // 删除所有套餐数据
     public ResData<String> deleteSetmeal(@RequestParam("ids") String setmealId) {
         List<Long> ids = Arrays.stream(setmealId.split(",")).map(Long::parseLong).collect(Collectors.toList());
         for (Long id : ids)
@@ -107,7 +110,9 @@ public class SetMealController {
      * @return
      */
     @GetMapping("/list")
+    @Cacheable(value = "setMealCache", key = "#categoryId+'_'+#status")
     public ResData<List<Setmeal>> getList(@RequestParam("categoryId") Long categoryId, Integer status) {
+        log.info("请求套餐数据"); // 如果缓存中有，则不会执行方法体内容：不会输出这句话
         LambdaQueryWrapper<Setmeal> setMealWrapper = new LambdaQueryWrapper<>();
         setMealWrapper.eq(Setmeal::getCategoryId, categoryId);
         List<Setmeal> setmealList = setMealService.list(setMealWrapper);

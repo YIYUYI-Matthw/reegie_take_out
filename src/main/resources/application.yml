@@ -5,19 +5,22 @@ server:
 spring:
   application:
     name: reggie_take_out # 指定应用名称：optional
+  main:
+    banner-mode: off # 关闭spring的banner输出
   datasource:
     druid:
       driver-class-name: com.mysql.cj.jdbc.Driver
       url: jdbc:mysql://localhost:3306/reggie?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&useSSL=false&allowPublicKeyRetrieval=true
       username: root
       password: 1234
-  main:
-    banner-mode: off
   redis:
     host: 192.168.6.134
     port: 6379
     password: 1234
     database: 0
+  cache:
+    redis:
+      time-to-live: 1800000
 
 mybatis-plus:
   configuration:

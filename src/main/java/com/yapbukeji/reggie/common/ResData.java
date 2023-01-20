@@ -2,6 +2,7 @@ package com.yapbukeji.reggie.common;
 
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -12,7 +13,7 @@ import java.util.Map;
  */
 @SuppressWarnings("all")
 @Data // 这是干嘛用的？加了之后，406错误没了
-public class ResData<T> {
+public class ResData<T> implements Serializable {
     private Integer code;
     private String msg;
     private T data; // T：泛型，根据传入的类型决定
